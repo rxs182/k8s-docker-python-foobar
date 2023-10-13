@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ire-mig
+spec:
+  # required
+  selector:
+    matchLabels:
+      app: foobar9
+  strategy:
+    # Should be "Recreate" for single instance Rolling is not valid
+    type: Recreate
+  # required (pod template) this is a nested pod manifest
+  template:
+    metadata:
+      labels:
+        app: foobar9
+    spec:
+      containers:
+      - image: foobar-9
+        name: foobar9
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim

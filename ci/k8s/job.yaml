@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: job
+metadata:
+  name: foobar-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: foobar-container
+        image: foobar-img
+        command: ["python", "worker.py"]
+      restartPolicy: never
+    backoffLimit: 1
