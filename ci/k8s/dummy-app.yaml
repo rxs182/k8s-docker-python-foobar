@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy
+spec:
+  # required
+  selector:
+    matchLabels:
+      # this needs to match the template label
+      app: dummy
+  strategy:
+    # Should be "Recreate" for single instance Rolling is not valid
+    type: Recreate
+  # required (pod template) this is a nested pod manifest
+  template:
+    metadata:
+      labels:
+        app: dummy
+    spec:
+      containers:
+      - name: dummy-42
+        image: dummy:latest
+        # This is needed for locally developed images
+        imagePullPolicy: IfNotPresent
+        env:
+          # Use secrets/config maps
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: dummy-config
+              key: redis.host
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: dummy-config
+              key: redis.port
+        - name: REDIS_QUEUE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: dummy-config
+              key: redis.queue.name

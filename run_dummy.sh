@@ -1,0 +1,1 @@
+docker run --name dummy42 --env REDIS_HOST=${REDIS_HOST} --env REDIS_PORT=${REDIS_PORT} --env REDIS_QUEUE_NAME=${REDIS_QUEUE_NAME} -- dummy

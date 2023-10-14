@@ -8,4 +8,5 @@ RUN touch /var/log/app.log
 
 COPY app/ /usr/app/
 
+WORKDIR /usr/app
 CMD python dummy.py

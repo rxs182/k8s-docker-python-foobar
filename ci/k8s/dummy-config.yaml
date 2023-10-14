@@ -1,0 +1,10 @@
+# I tried to add this in the deployment manifest and it failed miserably
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dummy-config
+  namespace: default
+data:
+  redis.host: localhost
+  redis.port: '6379'
+  redis.queue.name: foobar
